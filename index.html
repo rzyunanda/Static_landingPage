@@ -122,3 +122,19 @@
   </footer>
 </body>
 </html>
+
+<script>
+(function () {
+	var s = document.createElement('script');
+	s.src = 'https://cdn-prod.securiti.ai/consent/cookie-consent-sdk-loader.js';
+	s.setAttribute('data-tenant-uuid', 'afce5c7a-a0ed-46ac-886b-c5323b39edba');
+	s.setAttribute('data-domain-uuid', '6bcbd199-2192-46c8-a12a-6a414e8e5ccf');
+	s.setAttribute('data-backend-url', 'https://app.securiti.ai');
+	s.setAttribute('data-securiti-staging-mode', 'true');
+	s.setAttribute('data-skip-css', 'false');
+	s.defer = true;
+	var parent_node = document.head || document.body;
+	parent_node.appendChild(s);
+})()
+</script>
+
