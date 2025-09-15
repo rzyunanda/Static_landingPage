@@ -213,119 +213,24 @@
     </div>
   </dialog>
 
-  <script>
-  (function(){
-    const LS_KEY = 'consent.preferences.v1';
-    const TTL_MONTHS = 12;
-    const yearEl = document.getElementById('year'); yearEl.textContent = new Date().getFullYear();
-
-    const banner = document.getElementById('consentBanner');
-    const prefsModal = document.getElementById('prefsModal');
-    const policyModal = document.getElementById('policyModal');
-
-    const elAnalytics = document.getElementById('consent-analytics');
-    const elMarketing = document.getElementById('consent-marketing');
-
-    function getPrefs(){
-      try{
-        const raw = localStorage.getItem(LS_KEY);
-        if(!raw) return null;
-        const obj = JSON.parse(raw);
-        if(obj && obj.expires && Date.now() > obj.expires){
-          localStorage.removeItem(LS_KEY);
-          return null;
-        }
-        return obj;
-      }catch(e){return null}
-    }
-
-    function savePrefs({analytics=false, marketing=false}){
-      const expires = new Date();
-      expires.setMonth(expires.getMonth() + TTL_MONTHS);
-      const data = {version:1, analytics:!!analytics, marketing:!!marketing, updated:Date.now(), expires:+expires};
-      localStorage.setItem(LS_KEY, JSON.stringify(data));
-      document.documentElement.dataset.analytics = data.analytics ? 'on' : 'off';
-      document.documentElement.dataset.marketing = data.marketing ? 'on' : 'off';
-      // Contoh: hanya load skrip non-esensial bila diizinkan
-      mountNonEssential(data);
-    }
-
-    function mountNonEssential(p){
-      // Bersihkan placeholder sebelumnya
-      const ex = document.getElementById('mock-analytics');
-      if(ex) ex.remove();
-      if(p.analytics){
-        // Demo: alih-alih memuat GA, kita log & simulasikan event
-        const s = document.createElement('script');
-        s.id = 'mock-analytics';
-        s.textContent = "window.__mockAnalytics=1; console.log('[ANALYTICS] aktif karena pengguna setuju.');";
-        document.body.appendChild(s);
-      }
-      if(p.marketing){
-        console.log('[MARKETING] personalisasi aktif.');
-      }
-    }
-
-    function openPrefs(){ if(typeof prefsModal.showModal==='function') prefsModal.showModal(); }
-    function closePrefs(){ if(typeof prefsModal.close==='function') prefsModal.close(); }
-    function openPolicy(){ if(typeof policyModal.showModal==='function') policyModal.showModal(); }
-    function closePolicy(){ if(typeof policyModal.close==='function') policyModal.close(); }
-
-    // Banner display logic: only show if no valid prefs
-    const existing = getPrefs();
-    if(existing){
-      elAnalytics.checked = !!existing.analytics;
-      elMarketing.checked = !!existing.marketing;
-      mountNonEssential(existing);
-    }else{
-      banner.style.display = 'flex';
-    }
-
-    // Banner actions
-    document.getElementById('acceptAll').addEventListener('click', ()=>{
-      savePrefs({analytics:true, marketing:true});
-      banner.style.display = 'none';
-    });
-    document.getElementById('rejectAll').addEventListener('click', ()=>{
-      savePrefs({analytics:false, marketing:false});
-      banner.style.display = 'none';
-    });
-    document.getElementById('customize').addEventListener('click', ()=>{
-      openPrefs();
-    });
-
-    // Modal actions
-    document.getElementById('savePrefs').addEventListener('click', ()=>{
-      savePrefs({analytics:elAnalytics.checked, marketing:elMarketing.checked});
-      closePrefs();
-      banner.style.display = 'none';
-    });
-    document.getElementById('saveReject').addEventListener('click', ()=>{
-      elAnalytics.checked = false; elMarketing.checked = false;
-      savePrefs({analytics:false, marketing:false});
-      closePrefs();
-      banner.style.display = 'none';
-    });
-
-    // Openers
-    document.getElementById('openPrefs').addEventListener('click', openPrefs);
-    document.getElementById('openPrefs2').addEventListener('click', openPrefs);
-    document.getElementById('manageFloating').addEventListener('click', openPrefs);
-    document.getElementById('openPolicy').addEventListener('click', openPolicy);
-
-    // Closers
-    document.getElementById('closePrefs').addEventListener('click', closePrefs);
-    document.getElementById('closePolicy').addEventListener('click', closePolicy);
-
-    // Demo DSR form submit (no network)
-    document.getElementById('dsrForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const msg = document.getElementById('dsrMsg');
-      msg.textContent = 'Permintaan diterima (demo). Kami akan merespons sesuai UU PDP.';
-      setTimeout(()=>{msg.textContent='';},4000);
-      e.target.reset();
-    });
-  })();
-  </script>
+<!-- THIS CODE IS FOR TESTING PURPOSE ONLY, DO NOT USE IT IN PRODUCTION. 
+After adding this script, call setConsentBannerParams({uuid: <unique id> }) to set unique ID for a customer.  -->
+<script>
+(function () {
+	var s = document.createElement('script');
+	s.src = 'https://cdn-prod.securiti.ai/consent/cookie-consent-sdk-loader.js';
+	s.setAttribute('data-tenant-uuid', 'afce5c7a-a0ed-46ac-886b-c5323b39edba');
+	s.setAttribute('data-domain-uuid', '6bcbd199-2192-46c8-a12a-6a414e8e5ccf');
+	s.setAttribute('data-backend-url', 'https://app.securiti.ai');
+	s.setAttribute('data-securiti-staging-mode', 'true');
+	s.setAttribute('data-skip-css', 'false');
+	s.defer = true;
+	var parent_node = document.head || document.body;
+	parent_node.appendChild(s);
+})()
+</script>
+  
+  
 </body>
 </html>
+
