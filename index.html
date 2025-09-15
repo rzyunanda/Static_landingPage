@@ -1,154 +1,331 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pesona Nusantara – Keindahan Alam Indonesia</title>
-  <meta name="description" content="Halaman sederhana menampilkan keindahan alam Indonesia: dari laut biru, gunung berapi, hingga hutan tropis yang menakjubkan." />
-  <meta name="theme-color" content="#0ea5e9" />
-  <!-- TailwindCSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Keindahan Indonesia — Demo Kepatuhan UU PDP</title>
+  <style>
+    :root{
+      --bg:#0b1020;--card:#121936;--muted:#98a2b3;--brand:#00d2a8;--brand-2:#4ac1ff;--danger:#ff5a7a;--ok:#22c55e;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;line-height:1.6;color:#e6e9ef;background:radial-gradient(1200px 800px at 85% -10%,rgba(74,193,255,.16),transparent),linear-gradient(180deg,rgba(0,210,168,.08),transparent 40%),var(--bg)}
+    a{color:var(--brand-2)}
+    header{position:relative;overflow:hidden}
+    .nav{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;max-width:1100px;margin:0 auto}
+    .logo{font-weight:800;letter-spacing:.3px;font-size:18px}
+    .cta{display:inline-flex;gap:12px;align-items:center}
+    .btn{padding:10px 14px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:transparent;color:#fff;cursor:pointer}
+    .btn.brand{background:linear-gradient(90deg,var(--brand),var(--brand-2));border:none}
+    .hero{max-width:1100px;margin:40px auto;padding:24px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+    .hero .left{padding:28px}
+    .eyebrow{color:var(--brand-2);text-transform:uppercase;letter-spacing:.2em;font-size:12px;font-weight:700}
+    h1{margin:.4em 0 .3em;font-size:48px;line-height:1.1}
+    .lead{color:#d1d6e0;font-size:18px}
+    .chiprow{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px}
+    .chip{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+    .hero .right{display:grid;gap:14px}
+    .photo{height:170px;border-radius:16px;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,.08)}
+    .photo.p1{background-image:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2)),url('https://images.unsplash.com/photo-1543248939-bc7d5a3f09d6?q=80&w=1600&auto=format&fit=crop');}
+    .photo.p2{background-image:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2)),url('https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?q=80&w=1600&auto=format&fit=crop');}
+    .photo.p3{background-image:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2)),url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=1600&auto=format&fit=crop');}
+
+    .section{max-width:1100px;margin:24px auto;padding:0 24px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .tile{padding:18px;border-radius:16px}
+    .tile h3{margin:8px 0 6px}
+    .muted{color:var(--muted)}
+
+    .policy.card{padding:22px;margin-top:24px}
+    .policy h2{margin:0 0 6px}
+    .policy ul{margin:0 0 0 18px}
+
+    footer{margin:42px 0 80px;text-align:center;color:var(--muted)}
+
+    /* Consent banner */
+    .banner{position:fixed;inset:auto 12px 12px 12px;display:none;gap:14px;flex-wrap:wrap;padding:16px;border-radius:14px;background:#0b122b;border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 40px rgba(0,0,0,.5);z-index:50}
+    .banner .actions{display:flex;gap:10px;margin-left:auto}
+    .btn.subtle{background:rgba(255,255,255,.06)}
+
+    /* Preferences modal */
+    dialog{width:min(680px,94vw);border:none;border-radius:16px;background:#0b122b;color:#fff;padding:0;box-shadow:0 22px 60px rgba(0,0,0,.6)}
+    dialog::backdrop{background:rgba(0,0,0,.6)}
+    .modal-hd{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.12)}
+    .modal-bd{padding:16px 18px}
+    .pref{display:flex;justify-content:space-between;align-items:center;padding:14px;border:1px solid rgba(255,255,255,.1);border-radius:12px;margin-bottom:10px}
+    .pref label{font-weight:600}
+    .switch{appearance:none;width:44px;height:26px;border-radius:999px;background:#2a335a;position:relative;outline:none;cursor:pointer;border:1px solid rgba(255,255,255,.15)}
+    .switch:checked{background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+    .switch::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:all .2s ease}
+    .switch:checked::after{left:22px}
+    .tag{font-size:12px;background:rgba(255,255,255,.08);padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12)}
+
+    .manage-consent{position:fixed;right:12px;bottom:12px;z-index:40}
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
 </head>
-<body class="antialiased text-slate-800 bg-gradient-to-b from-white to-sky-50">
-  <!-- NAV -->
-  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2 font-semibold text-slate-900">
-        <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span>
-        Pesona Nusantara
-      </a>
-      <nav class="hidden md:flex items-center gap-6 text-sm">
-        <a href="#tentang" class="hover:text-sky-600">Tentang</a>
-        <a href="#destinasi" class="hover:text-sky-600">Destinasi</a>
-        <a href="#galeri" class="hover:text-sky-600">Galeri</a>
-        <a href="#kontak" class="hover:text-sky-600">Kontak</a>
-      </nav>
-      <a href="#destinasi" class="px-3 py-2 rounded-xl bg-sky-600 text-white hover:bg-sky-700 text-sm">Jelajahi</a>
-    </div>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="logo">Nusantara<span style="color:var(--brand-2)">Vista</span></div>
+      <div class="cta">
+        <button class="btn" id="openPolicy">Kebijakan Privasi</button>
+        <button class="btn brand" id="openPrefs">Kelola Persetujuan</button>
+      </div>
+    </nav>
   </header>
 
-  <!-- HERO -->
-  <section class="relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
-      <div>
-        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
-          Keindahan Alam <span class="text-sky-600">Indonesia</span>
-        </h1>
-        <p class="mt-4 text-lg text-slate-600">Negeri kepulauan dengan laut sebening kristal, pegunungan megah, dan hutan tropis yang kaya. Mari menikmati pesonanya dalam satu halaman sederhana.</p>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#galeri" class="px-5 py-3 rounded-xl bg-sky-600 text-white hover:bg-sky-700">Lihat Galeri</a>
-          <a href="#tentang" class="px-5 py-3 rounded-xl border border-slate-300 hover:border-sky-500">Pelajari Lebih Lanjut</a>
-        </div>
+  <section class="hero">
+    <div class="left card">
+      <div class="eyebrow">Demo Kepatuhan UU PDP</div>
+      <h1>Keindahan Alam Indonesia</h1>
+      <p class="lead">Dari Sabang sampai Merauke: pantai tropis, pegunungan hijau, dan budaya yang kaya. Situs demo ini menunjukkan bagaimana sebuah website memberi <strong>opsi persetujuan (consent)</strong> sesuai UU No. 27/2022 tentang Perlindungan Data Pribadi.</p>
+      <div class="chiprow">
+        <span class="chip">🏝️ Raja Ampat</span>
+        <span class="chip">⛰️ Bromo</span>
+        <span class="chip">🌋 Rinjani</span>
+        <span class="chip">🌿 Toba</span>
       </div>
-      <div class="relative">
-        <div class="rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-          <img src="https://etravelsim.com/cdn/shop/articles/Indonesia_1_1200x1200.jpg?v=1708325892" alt="Pulau tropis Indonesia" class="w-full h-full object-cover">
-        </div>
-      </div>
+    </div>
+    <div class="right">
+      <div class="photo p1 card" title="Raja Ampat"></div>
+      <div class="photo p2 card" title="Gunung Bromo"></div>
+      <div class="photo p3 card" title="Danau Toba"></div>
     </div>
   </section>
 
-  <!-- TENTANG -->
-  <section id="tentang" class="py-16 bg-white">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Tentang Halaman Ini</h2>
-      <p class="mt-4 text-slate-600">Ini adalah landing page sederhana tanpa komponen rumit. Kamu bisa menggunakannya untuk demo cepat, presentasi, atau sebagai dasar pengembangan situs pariwisata. Semua elemen dibuat ringan dan responsif.</p>
-      <ul class="mt-6 grid md:grid-cols-3 gap-4 text-sm text-slate-700">
-       
+  <section class="section">
+    <div class="grid">
+      <div class="tile card">
+        <h3>Transparansi</h3>
+        <p class="muted">Kami menjelaskan kategori data, tujuan pemrosesan, dan dasar hukum yang relevan. Pengguna dapat menolak non-esensial tanpa mengurangi fungsi utama.</p>
+      </div>
+      <div class="tile card">
+        <h3>Kontrol Pengguna</h3>
+        <p class="muted">Semua cookie/skrip non-esensial <em>opt‑in</em> (nonaktif secara default). Anda dapat mengubah pilihan kapan saja.</p>
+      </div>
+      <div class="tile card">
+        <h3>Minimisasi Data</h3>
+        <p class="muted">Kami hanya mengumpulkan data seperlunya untuk menyediakan layanan dan menganonimkan bila memungkinkan.</p>
+      </div>
+    </div>
+
+    <div class="policy card" id="policy">
+      <h2>Ringkasan Kebijakan Privasi</h2>
+      <p class="muted">Landasan: UU No. 27/2022 (PDP). Dasar pemrosesan: <strong>persetujuan</strong> (untuk analitik & pemasaran), <strong>perjanjian</strong> (untuk layanan inti), dan <strong>kepatuhan hukum</strong> bila diperlukan.</p>
+      <ul>
+        <li><strong>Data yang diproses:</strong> identitas akun (nama, email), data perangkat/telemetri, preferensi kunjungan.</li>
+        <li><strong>Tujuan:</strong> pengalaman situs, analitik kunjungan, personalisasi konten promosi destinasi.</li>
+        <li><strong>Hak Anda:</strong> akses, perbaikan, penghapusan, portabilitas, pembatasan, keberatan, dan <em>menarik persetujuan</em>.</li>
+        <li><strong>Pihak ketiga:</strong> hanya bila Anda menyetujui kategori terkait (mis. analitik atau pemasaran).</li>
+        <li><strong>Penyimpanan:</strong> preferensi consent disimpan di <code>localStorage</code> maksimal 12 bulan (contoh).</li>
       </ul>
+      <p class="muted">Untuk permintaan hak subjek data, gunakan formulir berikut (contoh, non-produksi):</p>
+      <form id="dsrForm" class="card" style="padding:12px;margin-top:8px">
+        <label>Alamat Email
+          <input required type="email" name="email" placeholder="nama@contoh.id" style="width:100%;padding:10px;margin-top:6px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:transparent;color:#fff">
+        </label>
+        <label style="display:block;margin-top:8px">Jenis Permintaan
+          <select name="type" style="width:100%;padding:10px;margin-top:6px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:transparent;color:#fff">
+            <option value="akses">Akses Data</option>
+            <option value="hapus">Hapus Data (Right to be Forgotten)</option>
+            <option value="perbaiki">Perbaiki Data</option>
+            <option value="tarik">Tarik Persetujuan</option>
+          </select>
+        </label>
+        <button class="btn brand" style="margin-top:10px" type="submit">Kirim Permintaan</button>
+        <span id="dsrMsg" class="muted" style="margin-left:10px"></span>
+      </form>
     </div>
   </section>
 
-  <!-- DESTINASI -->
-  <section id="destinasi" class="py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Destinasi Ikonik</h2>
-      <div class="mt-8 grid md:grid-cols-3 gap-6">
-        <div class="p-6 rounded-2xl border border-slate-200 bg-white">
-          <img src="https://indonesiajuara.asia/wp-content/uploads/2024/02/Piaynemo-Raja-Ampat_OK.webp" alt="Raja Ampat" class="rounded-xl mb-3 aspect-video object-cover">
-          <h3 class="font-semibold">Raja Ampat, Papua Barat</h3>
-          <p class="text-sm text-slate-600 mt-1">Surga bawah laut dengan keanekaragaman hayati tertinggi di dunia.</p>
-        </div>
-        <div class="p-6 rounded-2xl border border-slate-200 bg-white">
-          <img src="https://www.barcelo.com/guia-turismo/wp-content/uploads/2022/10/yakarta-monte-bromo-pal.jpg" alt="Bromo" class="rounded-xl mb-3 aspect-video object-cover">
-          <h3 class="font-semibold">Bromo, Jawa Timur</h3>
-          <p class="text-sm text-slate-600 mt-1">Panorama lautan pasir dan sunrise yang fenomenal.</p>
-        </div>
-        <div class="p-6 rounded-2xl border border-slate-200 bg-white">
-          <img src="https://static.uc.ac.id/htb/2019/01/maxresdefault.jpg" alt="Labuan Bajo" class="rounded-xl mb-3 aspect-video object-cover">
-          <h3 class="font-semibold">Labuan Bajo, NTT</h3>
-          <p class="text-sm text-slate-600 mt-1">Gerbang menuju Taman Nasional Komodo dengan pulau-pulau memesona.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- GALERI -->
-  <section id="galeri" class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Galeri</h2>
-      <div class="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
-        <img src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1000&auto=format&fit=crop" alt="Air terjun tropis" class="rounded-xl aspect-[4/3] object-cover" />
-        <img src="https://images.unsplash.com/photo-1526481280698-8fcc13fd92fe?q=80&w=1000&auto=format&fit=crop" alt="Danau vulkanik" class="rounded-xl aspect-[4/3] object-cover" />
-        <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1000&auto=format&fit=crop" alt="Pantai berpasir putih" class="rounded-xl aspect-[4/3] object-cover" />
-        <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=1000&auto=format&fit=crop" alt="Hutan tropis" class="rounded-xl aspect-[4/3] object-cover" />
-        <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=1000&auto=format&fit=crop" alt="Gunung hijau" class="rounded-xl aspect-[4/3] object-cover" />
-        <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=1000&auto=format&fit=crop" alt="Kepulauan kecil" class="rounded-xl aspect-[4/3] object-cover" />
-      </div>
-      <p class="mt-3 text-xs text-slate-500">Sumber foto: Unsplash (kredit fotografer tersedia pada tautan asli).</p>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-16">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold">Siap Berkelana?</h2>
-      <p class="mt-2 text-slate-600">Gunakan halaman sederhana ini untuk demo, promosi, atau inspirasi perjalananmu.</p>
-      <a href="#kontak" class="inline-block mt-6 px-6 py-3 rounded-xl bg-sky-600 text-white hover:bg-sky-700">Hubungi Kami</a>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer id="kontak" class="py-10 border-t border-slate-200 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-6 items-center">
-      <div>
-        <p class="font-semibold">Pesona Nusantara</p>
-        <p class="text-sm text-slate-600">Halaman ini bebas dipakai untuk demo/portofolio. Edit teks & gambar sesuai kebutuhan.</p>
-      </div>
-      <div class="justify-self-end text-sm">
-        <a href="mailto:hello@domainmu.com" class="text-sky-700 hover:underline">hello@domainmu.com</a>
-      </div>
-    </div>
+  <footer>
+    © <span id="year"></span> NusantaraVista • <button class="btn subtle" id="openPrefs2">Kelola Persetujuan</button>
   </footer>
+
+  <!-- Consent Banner -->
+  <div class="banner" id="consentBanner" role="dialog" aria-live="polite">
+    <div style="max-width:620px">
+      <strong>Kontrol Privasi Anda</strong>
+      <div class="muted">Kami menggunakan cookie dan teknologi serupa untuk fungsi esensial, serta analitik dan pemasaran <em>hanya jika Anda setuju</em>. Anda dapat menolak atau mengelola preferensi.</div>
+      <div class="muted" style="font-size:12px;margin-top:4px">Dengan menolak, kami tidak menjalankan skrip non‑esensial. Pelajari lebih lanjut di <a href="#policy">Kebijakan Privasi</a>.</div>
+    </div>
+    <div class="actions">
+      <button class="btn subtle" id="rejectAll">Tolak Non‑Esensial</button>
+      <button class="btn" id="customize">Sesuaikan</button>
+      <button class="btn brand" id="acceptAll">Izinkan Semua</button>
+    </div>
+  </div>
+
+  <button class="btn subtle manage-consent" id="manageFloating">Kelola Persetujuan</button>
+
+  <!-- Preferences Modal -->
+  <dialog id="prefsModal" aria-labelledby="prefsTitle">
+    <div class="modal-hd">
+      <div>
+        <div class="eyebrow">Preferensi Privasi</div>
+        <h3 id="prefsTitle" style="margin:4px 0 0">Kelola Persetujuan Anda</h3>
+      </div>
+      <button class="btn subtle" id="closePrefs">Tutup</button>
+    </div>
+    <div class="modal-bd">
+      <div class="pref">
+        <div>
+          <label>Esensial (wajib) <span class="tag">Selalu aktif</span></label>
+          <div class="muted">Diperlukan untuk keamanan, login, dan fungsi inti situs. Tidak membutuhkan persetujuan.</div>
+        </div>
+        <input type="checkbox" disabled checked aria-label="Esensial selalu aktif" />
+      </div>
+      <div class="pref">
+        <div>
+          <label for="consent-analytics">Analitik</label>
+          <div class="muted">Bantu kami memahami kunjungan secara agregat. Contoh: memuat skrip analytics.</div>
+        </div>
+        <input class="switch" id="consent-analytics" type="checkbox" />
+      </div>
+      <div class="pref">
+        <div>
+          <label for="consent-marketing">Pemasaran</label>
+          <div class="muted">Personalisasi promosi destinasi & penawaran wisata.</div>
+        </div>
+        <input class="switch" id="consent-marketing" type="checkbox" />
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:10px">
+        <button class="btn subtle" id="saveReject">Simpan: Tolak Non‑Esensial</button>
+        <button class="btn brand" id="savePrefs">Simpan Preferensi</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Privacy Policy Modal (quick view) -->
+  <dialog id="policyModal">
+    <div class="modal-hd">
+      <h3 style="margin:0">Kebijakan Privasi (Ringkas)</h3>
+      <button class="btn subtle" id="closePolicy">Tutup</button>
+    </div>
+    <div class="modal-bd">
+      <p>Kami memproses data pribadi sesuai UU PDP dengan prinsip: <em>transparansi, tujuan spesifik, minimisasi, akurasi, pembatasan penyimpanan, keamanan, akuntabilitas</em>. Untuk hak subjek data, silakan gunakan formulir di bagian <a href="#policy">Ringkasan</a>.</p>
+    </div>
+  </dialog>
+
+  <script>
+  (function(){
+    const LS_KEY = 'consent.preferences.v1';
+    const TTL_MONTHS = 12;
+    const yearEl = document.getElementById('year'); yearEl.textContent = new Date().getFullYear();
+
+    const banner = document.getElementById('consentBanner');
+    const prefsModal = document.getElementById('prefsModal');
+    const policyModal = document.getElementById('policyModal');
+
+    const elAnalytics = document.getElementById('consent-analytics');
+    const elMarketing = document.getElementById('consent-marketing');
+
+    function getPrefs(){
+      try{
+        const raw = localStorage.getItem(LS_KEY);
+        if(!raw) return null;
+        const obj = JSON.parse(raw);
+        if(obj && obj.expires && Date.now() > obj.expires){
+          localStorage.removeItem(LS_KEY);
+          return null;
+        }
+        return obj;
+      }catch(e){return null}
+    }
+
+    function savePrefs({analytics=false, marketing=false}){
+      const expires = new Date();
+      expires.setMonth(expires.getMonth() + TTL_MONTHS);
+      const data = {version:1, analytics:!!analytics, marketing:!!marketing, updated:Date.now(), expires:+expires};
+      localStorage.setItem(LS_KEY, JSON.stringify(data));
+      document.documentElement.dataset.analytics = data.analytics ? 'on' : 'off';
+      document.documentElement.dataset.marketing = data.marketing ? 'on' : 'off';
+      // Contoh: hanya load skrip non-esensial bila diizinkan
+      mountNonEssential(data);
+    }
+
+    function mountNonEssential(p){
+      // Bersihkan placeholder sebelumnya
+      const ex = document.getElementById('mock-analytics');
+      if(ex) ex.remove();
+      if(p.analytics){
+        // Demo: alih-alih memuat GA, kita log & simulasikan event
+        const s = document.createElement('script');
+        s.id = 'mock-analytics';
+        s.textContent = "window.__mockAnalytics=1; console.log('[ANALYTICS] aktif karena pengguna setuju.');";
+        document.body.appendChild(s);
+      }
+      if(p.marketing){
+        console.log('[MARKETING] personalisasi aktif.');
+      }
+    }
+
+    function openPrefs(){ if(typeof prefsModal.showModal==='function') prefsModal.showModal(); }
+    function closePrefs(){ if(typeof prefsModal.close==='function') prefsModal.close(); }
+    function openPolicy(){ if(typeof policyModal.showModal==='function') policyModal.showModal(); }
+    function closePolicy(){ if(typeof policyModal.close==='function') policyModal.close(); }
+
+    // Banner display logic: only show if no valid prefs
+    const existing = getPrefs();
+    if(existing){
+      elAnalytics.checked = !!existing.analytics;
+      elMarketing.checked = !!existing.marketing;
+      mountNonEssential(existing);
+    }else{
+      banner.style.display = 'flex';
+    }
+
+    // Banner actions
+    document.getElementById('acceptAll').addEventListener('click', ()=>{
+      savePrefs({analytics:true, marketing:true});
+      banner.style.display = 'none';
+    });
+    document.getElementById('rejectAll').addEventListener('click', ()=>{
+      savePrefs({analytics:false, marketing:false});
+      banner.style.display = 'none';
+    });
+    document.getElementById('customize').addEventListener('click', ()=>{
+      openPrefs();
+    });
+
+    // Modal actions
+    document.getElementById('savePrefs').addEventListener('click', ()=>{
+      savePrefs({analytics:elAnalytics.checked, marketing:elMarketing.checked});
+      closePrefs();
+      banner.style.display = 'none';
+    });
+    document.getElementById('saveReject').addEventListener('click', ()=>{
+      elAnalytics.checked = false; elMarketing.checked = false;
+      savePrefs({analytics:false, marketing:false});
+      closePrefs();
+      banner.style.display = 'none';
+    });
+
+    // Openers
+    document.getElementById('openPrefs').addEventListener('click', openPrefs);
+    document.getElementById('openPrefs2').addEventListener('click', openPrefs);
+    document.getElementById('manageFloating').addEventListener('click', openPrefs);
+    document.getElementById('openPolicy').addEventListener('click', openPolicy);
+
+    // Closers
+    document.getElementById('closePrefs').addEventListener('click', closePrefs);
+    document.getElementById('closePolicy').addEventListener('click', closePolicy);
+
+    // Demo DSR form submit (no network)
+    document.getElementById('dsrForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const msg = document.getElementById('dsrMsg');
+      msg.textContent = 'Permintaan diterima (demo). Kami akan merespons sesuai UU PDP.';
+      setTimeout(()=>{msg.textContent='';},4000);
+      e.target.reset();
+    });
+  })();
+  </script>
 </body>
-
-
-
-
-
-<!-- THIS CODE IS FOR TESTING PURPOSE ONLY, DO NOT USE IT IN PRODUCTION. 
-After adding this script, call setConsentBannerParams({uuid: <unique id> }) to set unique ID for a customer.  -->
-<script>
-(function () {
-	var s = document.createElement('script');
-	s.src = 'https://cdn-prod.securiti.ai/consent/cookie-consent-sdk-loader.js';
-	s.setAttribute('data-tenant-uuid', 'afce5c7a-a0ed-46ac-886b-c5323b39edba');
-	s.setAttribute('data-domain-uuid', '6bcbd199-2192-46c8-a12a-6a414e8e5ccf');
-	s.setAttribute('data-backend-url', 'https://app.securiti.ai');
-	s.setAttribute('data-securiti-staging-mode', 'true');
-	s.setAttribute('data-skip-css', 'false');
-	s.defer = true;
-	var parent_node = document.head || document.body;
-	parent_node.appendChild(s);
-})()
-</script>
-	
 </html>
-
-
-
-
-
-
-
-
